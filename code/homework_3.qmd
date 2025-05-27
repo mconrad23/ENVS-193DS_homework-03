@@ -12,11 +12,12 @@ format: html
 library(tidyverse) 
 library(here)
 library(gt) 
+library(janitor)
 ```
 #Problem 1. Personal data 
 
 ##a. Data summarizing 
-[To summarize my data in order to compare the response variable between categories, I calculate the mean length of study sessions for each type of music to compare how different music genres might affect how long I am studying. This comparison would be informative because the type of music may influence focus and productivity, potentially leading to longer or shorter study sessions depending on the genre.]
+[To summarize my data in order to compare the response variable between categories, I should calculate the mean length of study sessions for each type of music to compare how different music genres might affect how long I am studying. This comparison would be informative because the type of music may influence focus and productivity, potentially leading to longer or shorter study sessions depending on the genre.]
 
 ##b. Visualization 
 ```{r}
@@ -25,33 +26,63 @@ library(ggplot2)
 library(readxl)
 library(dplyr)
 
-# Read the Excel file (adjust path if needed)
-data <- read_excel("personal_data_project_DATA.xls", sheet = "Sheet1", skip = 1)
+# read in excel file 
+data <- read_csv("personal_data_project_DATA_Sheet1.csv")
 
-# Clean column names
-colnames(data) <- trimws(colnames(data))
+# summarize data - mean study length per music genre
+summary_data <- data %>%
+  group_by(`Type of Music`) %>%
+  summarise(Mean_Length = mean(`Length of Study Session (hours)`, na.rm = TRUE))
 
-# Convert study session length to numeric
-data$`Length of Study Session (hours)` <- as.numeric(data$`Length of Study Session (hours)`)
-
-# Create the plot
-ggplot(data, aes(x = `Type of Music`, y = `Length of Study Session (hours)`)) +
-  geom_boxplot(fill = "#A8DADC", color = "#457B9D", outlier.shape = NA) +  # Custom box colors
-  geom_jitter(width = 0.2, size = 2, alpha = 0.6, color = "#1D3557") +     # Add individual points
+# actual plot
+ggplot(data, aes(x = `Type of Music`, y = `Length of Study Session (hours)`, color = `Type of Music`)) +
+  geom_jitter(width = 0.2, alpha = 0.6, size = 2) +  # show individual study sessions
+  stat_summary(fun = mean, geom = "point", shape = 18, size = 4, color = "black") +  # mean points
+  scale_color_brewer(palette = "Set2") +  # colorful palette
   labs(
-    title = "Comparison of Study Session Lengths by Music Type",
-    x = "Type of Music Listened to While Studying",
-    y = "Length of Study Session (in Hours)"
+    title = "Study Session Lengths by Music Genre",
+    x = "Type of Music",
+    y = "Length of Study Session (hours)",
+    color = "Music Genre"
   ) +
   theme_minimal(base_size = 14) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "none"
+  )
 ```
-
 
 ##c. Caption 
 
+[Figure 1.The length of each study session in hours by the type of music listened to during each session. Each point represents the length (in hours) of an individual study session under a specific type of music. Colored jittered points show the distribution of individual sessions, while black diamonds represent the mean study length for each genre. This visualization highlights how different music types may be associated with longer or shorter average study duration, which may have effects on productivity and how much work is accompliosged duirng each study session.]
+
 ##d. Table presentation 
+
+```{r}
+# load extra library
+library(gt)
+
+# summarize data (mean study session length by type of music)
+summary_table <- data %>%
+  group_by(`Type of Music`) %>%
+  summarise(`Mean Study Length (hours)` = round(mean(`Length of Study Session (hours)`, na.rm = TRUE), 1))
+
+# create table 
+summary_table %>%
+  gt() %>%
+  tab_header(
+    title = "Average Study Session Length by Music Genre"
+  ) %>%
+  cols_label(
+    `Type of Music` = "Type of Music",
+    `Mean Study Length (hours)` = "Mean Length (hours)"
+  ) %>%
+  fmt_number(
+    columns = `Mean Study Length (hours)`,
+    decimals = 1
+  )
+
+```
 
 #Problem 2. Affective visualization 
 
