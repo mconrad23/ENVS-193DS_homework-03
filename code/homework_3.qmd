@@ -3,7 +3,9 @@ title: "homework_3"
 format: html
 ---
 
-[View this repository on GitHub](https://github.com/mconrad23/ENVS-193DS_homework-03.git)
+[View repository on GitHub](https://github.com/mconrad23/ENVS-193DS_homework-03.git)
+
+#Set up
 
 ```{r} 
 #load in packages
@@ -11,5 +13,35 @@ library(tidyverse)
 library(here)
 library(gt) 
 ```
+#Problem 1. Personal data 
+
+##a. Data summarizing 
+[To summarize my data in order to compare the response variable between categories, I calculate the mean length of study sessions for each type of music to compare how different music genres might affect how long I am studying. This comparison would be informative because the type of music may influence focus and productivity, potentially leading to longer or shorter study sessions depending on the genre.]
+
+##b. Visualization 
+
+##c. Caption 
+
+##d. Table presentation 
+
+#Problem 2. Affective visualization 
+
+##a. Describe in words what an affective visualization could look like for your personal data
+
+##b. Create a sketch (on paper) of your idea.
+
+##c. Make a draft of your visualization
+
+##d. Write an artist statement
+
+#Problem 3. Statistical critique
+
+##a. Revisit and summarize
+
+##b. Visual clarity
+
+##c. Aesthetic clarity 
+
+##d. Recommendations
 
 
