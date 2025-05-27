@@ -19,6 +19,35 @@ library(gt)
 [To summarize my data in order to compare the response variable between categories, I calculate the mean length of study sessions for each type of music to compare how different music genres might affect how long I am studying. This comparison would be informative because the type of music may influence focus and productivity, potentially leading to longer or shorter study sessions depending on the genre.]
 
 ##b. Visualization 
+```{r}
+#load in libraries
+library(ggplot2)
+library(readxl)
+library(dplyr)
+
+# Read the Excel file (adjust path if needed)
+data <- read_excel("personal_data_project_DATA.xls", sheet = "Sheet1", skip = 1)
+
+# Clean column names
+colnames(data) <- trimws(colnames(data))
+
+# Convert study session length to numeric
+data$`Length of Study Session (hours)` <- as.numeric(data$`Length of Study Session (hours)`)
+
+# Create the plot
+ggplot(data, aes(x = `Type of Music`, y = `Length of Study Session (hours)`)) +
+  geom_boxplot(fill = "#A8DADC", color = "#457B9D", outlier.shape = NA) +  # Custom box colors
+  geom_jitter(width = 0.2, size = 2, alpha = 0.6, color = "#1D3557") +     # Add individual points
+  labs(
+    title = "Comparison of Study Session Lengths by Music Type",
+    x = "Type of Music Listened to While Studying",
+    y = "Length of Study Session (in Hours)"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
 
 ##c. Caption 
 
