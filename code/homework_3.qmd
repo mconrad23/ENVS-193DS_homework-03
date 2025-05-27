@@ -1,0 +1,15 @@
+---
+title: "homework_3"
+format: html
+---
+
+[View this repository on GitHub](https://github.com/mconrad23/ENVS-193DS_homework-03.git)
+
+```{r} 
+#load in packages
+library(tidyverse) 
+library(here)
+library(gt) 
+```
+
+
